@@ -363,17 +363,7 @@
 
 
 
-    <div class="hm-carousel hm-carousel--steps">
-
-
-      <button
-        type="button"
-        class="hm-arrow hm-prev"
-        aria-label="Indietro"
-      >‹</button>
-
-
-    <div class="steps hm-track">
+    <div class="steps">
 
 
       <!-- STEP 1 -->
@@ -487,16 +477,6 @@
 
     </div>
 
-
-      <button
-        type="button"
-        class="hm-arrow hm-next"
-        aria-label="Avanti"
-      >›</button>
-
-
-    </div>
-
   </div>
 
 </section>
@@ -549,37 +529,17 @@
 
 
 
-    <div class="hm-carousel">
-
-
-      <button
-        type="button"
-        class="hm-arrow hm-prev"
-        aria-label="Indietro"
-      >‹</button>
-
+    <div
+      id="tripsContainer"
+      class="cards"
+    >
 
       <div
-        id="tripsContainer"
-        class="cards hm-track"
+        class="loading"
+        data-i18n="loading"
       >
-
-        <div
-          class="loading"
-          data-i18n="loading"
-        >
-          Caricamento...
-        </div>
-
+        Caricamento...
       </div>
-
-
-      <button
-        type="button"
-        class="hm-arrow hm-next"
-        aria-label="Avanti"
-      >›</button>
-
 
     </div>
 
@@ -639,37 +599,17 @@
 
 
 
-    <div class="hm-carousel">
-
-
-      <button
-        type="button"
-        class="hm-arrow hm-prev"
-        aria-label="Indietro"
-      >‹</button>
-
+    <div
+      id="requestsContainer"
+      class="cards"
+    >
 
       <div
-        id="requestsContainer"
-        class="cards hm-track"
+        class="loading"
+        data-i18n="loading"
       >
-
-        <div
-          class="loading"
-          data-i18n="loading"
-        >
-          Caricamento...
-        </div>
-
+        Caricamento...
       </div>
-
-
-      <button
-        type="button"
-        class="hm-arrow hm-next"
-        aria-label="Avanti"
-      >›</button>
-
 
     </div>
 
@@ -705,32 +645,23 @@
     <div class="photo-carousel" id="photoCarousel">
 
       <div class="photo-carousel-track" id="photoCarouselTrack">
-        <!-- le foto -->
-            <div class="photo-carousel-slide">
-                      <img src="Immagini/logo.jpeg" alt=" Logo ">
-            </div>
-        
+
+        <div class="photo-carousel-slide slide-suitcase">
+          <div class="slide-icon">🧳</div>
+        </div>
+
         <div class="photo-carousel-slide slide-plane">
-          <img src="Immagini/copertina.png" alt=" Copertina ">
-          <img src="Immagini/prenotazione.png" alt=" Prenotazione ">
+          <div class="slide-icon">✈️</div>
         </div>
 
         <div class="photo-carousel-slide slide-connect">
-          <img src="Immagini/prenotazione.png" alt=" Prenotazione ">
+          <div class="slide-icon">🤝</div>
         </div>
 
         <div class="photo-carousel-slide slide-flags">
-          <img src="Immagini/pub.png" alt=" pub ">
-          <img src="Immagini/telifoun.png" alt="tel ">
+          <div class="slide-icon">🇪🇺 🇹🇳</div>
         </div>
 
-       <div class="photo-carousel-slide ">
-          <img src="Immagini/telifoun.png" alt="tel ">
-        </div>
-
-
-
-        
       </div>
 
       <button type="button" class="carousel-arrow carousel-prev" onclick="movePhotoCarousel(-1)">‹</button>

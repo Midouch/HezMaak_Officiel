@@ -1,3 +1,4 @@
+```css
 * {
   box-sizing: border-box;
   margin: 0;
@@ -466,7 +467,7 @@ section {
 }
 
 .report-inline-button:hover {
-  background: #fff1f2;
+  background: #fef2f2;
   border-color: #fecaca;
 }
 
@@ -3114,147 +3115,6 @@ body.dark .review-home-comment {
     width: 36px;
     height: 36px;
     font-size: 20px;
-  }
-
-}
-
-
-/* =====================================================
-   CAROSELLI CONTENUTI
-   (Come funziona / Viaggi / Richieste)
-===================================================== */
-
-.hm-carousel {
-  position: relative;
-}
-
-.hm-carousel--steps {
-  margin-top: 50px;
-}
-
-.hm-track {
-  display: flex;
-  gap: 20px;
-  margin: 0;
-  padding: 8px 4px 22px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  scroll-padding-inline-start: 4px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.hm-track::-webkit-scrollbar {
-  display: none;
-}
-
-.hm-track > * {
-  flex: 0 0 calc((100% - 40px) / 3);
-  min-width: 0;
-  scroll-snap-align: start;
-}
-
-/* Stati vuoti / caricamento a tutta larghezza */
-
-.hm-track > .loading,
-.hm-track > .empty-state {
-  flex: 0 0 100%;
-  scroll-snap-align: start;
-}
-
-
-/* --- Frecce --- */
-
-.hm-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 3;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  background: #fff;
-  color: var(--dark);
-  font-size: 26px;
-  line-height: 1;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, .14);
-  transition: .2s;
-}
-
-.hm-arrow:hover {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: #fff;
-}
-
-.hm-arrow[disabled] {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.hm-prev {
-  inset-inline-start: -18px;
-}
-
-.hm-next {
-  inset-inline-end: -18px;
-}
-
-body.dark .hm-arrow {
-  background: #1e293b;
-  border-color: #334155;
-  color: #e2e8f0;
-}
-
-body.dark .hm-arrow:hover {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: #fff;
-}
-
-
-/* --- Responsive --- */
-
-@media (max-width: 900px) {
-
-  .hm-track > * {
-    flex: 0 0 calc((100% - 20px) / 2);
-  }
-
-  .hm-prev {
-    inset-inline-start: -8px;
-  }
-
-  .hm-next {
-    inset-inline-end: -8px;
-  }
-
-}
-
-@media (max-width: 600px) {
-
-  .hm-carousel--steps {
-    margin-top: 35px;
-  }
-
-  .hm-track {
-    gap: 14px;
-    padding: 8px 2px 20px;
-  }
-
-  .hm-track > * {
-    flex: 0 0 86%;
-  }
-
-  .hm-arrow {
-    display: none;
   }
 
 }

@@ -19,6 +19,90 @@ let currentUser = null;
    LANGUAGE SYSTEM
 ===================================================== */
 
+/* =====================================================
+   PAESI SUPPORTATI (Tunisia + Europa)
+===================================================== */
+
+const COUNTRIES = [
+  {
+    code: "tunisia",
+    flag: "🇹🇳",
+    names: { it: "Tunisia", en: "Tunisia", fr: "Tunisie", tn: "تونس" }
+  },
+  {
+    code: "italy",
+    flag: "🇮🇹",
+    names: { it: "Italia", en: "Italy", fr: "Italie", tn: "إيطاليا" }
+  },
+  {
+    code: "france",
+    flag: "🇫🇷",
+    names: { it: "Francia", en: "France", fr: "France", tn: "فرنسا" }
+  },
+  {
+    code: "germany",
+    flag: "🇩🇪",
+    names: { it: "Germania", en: "Germany", fr: "Allemagne", tn: "ألمانيا" }
+  },
+  {
+    code: "belgium",
+    flag: "🇧🇪",
+    names: { it: "Belgio", en: "Belgium", fr: "Belgique", tn: "بلجيكا" }
+  },
+  {
+    code: "netherlands",
+    flag: "🇳🇱",
+    names: { it: "Paesi Bassi", en: "Netherlands", fr: "Pays-Bas", tn: "هولندا" }
+  },
+  {
+    code: "switzerland",
+    flag: "🇨🇭",
+    names: { it: "Svizzera", en: "Switzerland", fr: "Suisse", tn: "سويسرا" }
+  },
+  {
+    code: "spain",
+    flag: "🇪🇸",
+    names: { it: "Spagna", en: "Spain", fr: "Espagne", tn: "إسبانيا" }
+  },
+  {
+    code: "austria",
+    flag: "🇦🇹",
+    names: { it: "Austria", en: "Austria", fr: "Autriche", tn: "النمسا" }
+  },
+  {
+    code: "sweden",
+    flag: "🇸🇪",
+    names: { it: "Svezia", en: "Sweden", fr: "Suède", tn: "السويد" }
+  },
+  {
+    code: "uk",
+    flag: "🇬🇧",
+    names: { it: "Regno Unito", en: "United Kingdom", fr: "Royaume-Uni", tn: "بريطانيا" }
+  }
+];
+
+function countryFlag(code) {
+  const country = COUNTRIES.find(c => c.code === code);
+  return country ? country.flag : "🌍";
+}
+
+function countryName(code) {
+  const country = COUNTRIES.find(c => c.code === code);
+  if (!country) return code;
+  return country.names[currentLanguage] || country.names.it;
+}
+
+function countryOptions(selectedCode) {
+  return COUNTRIES
+    .map(c => `
+      <option value="${c.code}" ${c.code === selectedCode ? "selected" : ""}>
+        ${c.flag} ${c.names[currentLanguage] || c.names.it}
+      </option>
+    `)
+    .join("");
+}
+
+
 const languages = [
   {
     code: "it",
@@ -59,13 +143,13 @@ const translations = {
     navHow: "Come funziona",
     loginRegister: "Accedi / Registrati",
 
-    badge: "🇮🇹 Italia ↔ 🇹🇳 Tunisia",
+    badge: "🇪🇺 Europa ↔ 🇹🇳 Tunisia",
 
     heroTitle:
       "Porta ciò che serve. <span>Connettiti.</span> Guadagna.",
 
     heroText:
-      "Hez Maak mette in contatto persone che devono ricevere oggetti tra Italia e Tunisia con viaggiatori e trasportatori che hanno spazio disponibile.",
+      "Hez Maak mette in contatto persone che devono ricevere oggetti tra l'Europa e la Tunisia con viaggiatori e trasportatori che hanno spazio disponibile.",
 
     travelButton:
       "✈️ Sto viaggiando",
@@ -90,6 +174,9 @@ const translations = {
 
     tunisia:
       "Tunisia",
+
+    europeLabel:
+      "Europa",
 
     routeDescription:
       "Hai spazio in valigia? Puoi aiutare qualcuno e guadagnare.",
@@ -773,7 +860,25 @@ const translations = {
       "Legale",
 
     footerCookiePreferences:
-      "Preferenze Cookie"
+      "Preferenze Cookie",
+
+    countriesMustDiffer:
+      "Partenza e arrivo devono essere in paesi diversi.",
+
+    oneMustBeTunisia:
+      "Una delle due tappe (partenza o arrivo) deve essere la Tunisia.",
+
+    europeTunisia:
+      "🇪🇺 Europa ↔ 🇹🇳 Tunisia",
+
+    reviewsLabel:
+      "LA COMMUNITY DICE",
+
+    reviewsHomeTitle:
+      "Storie di chi ha già usato Hez Maak",
+
+    noReviewsYet:
+      "Ancora nessuna recensione. Sii il primo a lasciarne una!"
 
   },
 
@@ -789,13 +894,13 @@ const translations = {
     navHow: "How it works",
     loginRegister: "Log in / Sign up",
 
-    badge: "🇮🇹 Italy ↔ 🇹🇳 Tunisia",
+    badge: "🇪🇺 Europe ↔ 🇹🇳 Tunisia",
 
     heroTitle:
       "Carry what's needed. <span>Connect.</span> Earn.",
 
     heroText:
-      "Hez Maak connects people who need to receive items between Italy and Tunisia with travelers and carriers who have space available.",
+      "Hez Maak connects people who need to receive items between Europe and Tunisia with travelers and carriers who have space available.",
 
     travelButton:
       "✈️ I'm traveling",
@@ -820,6 +925,9 @@ const translations = {
 
     tunisia:
       "Tunisia",
+
+    europeLabel:
+      "Europe",
 
     routeDescription:
       "Got space in your suitcase? You can help someone and earn money.",
@@ -1503,7 +1611,25 @@ const translations = {
       "Legal",
 
     footerCookiePreferences:
-      "Cookie Preferences"
+      "Cookie Preferences",
+
+    countriesMustDiffer:
+      "Departure and arrival must be in different countries.",
+
+    oneMustBeTunisia:
+      "One of the two legs (departure or arrival) must be Tunisia.",
+
+    europeTunisia:
+      "🇪🇺 Europe ↔ 🇹🇳 Tunisia",
+
+    reviewsLabel:
+      "WHAT THE COMMUNITY SAYS",
+
+    reviewsHomeTitle:
+      "Stories from people who've used Hez Maak",
+
+    noReviewsYet:
+      "No reviews yet. Be the first to leave one!"
 
   },
 
@@ -1519,13 +1645,13 @@ const translations = {
     navHow: "Comment ça marche",
     loginRegister: "Connexion / Inscription",
 
-    badge: "🇮🇹 Italie ↔ 🇹🇳 Tunisie",
+    badge: "🇪🇺 Europe ↔ 🇹🇳 Tunisie",
 
     heroTitle:
       "Transportez ce dont les autres ont besoin. <span>Connectez-vous.</span> Gagnez.",
 
     heroText:
-      "Hez Maak met en relation les personnes qui souhaitent recevoir des objets entre l'Italie et la Tunisie avec des voyageurs et transporteurs disposant d'espace.",
+      "Hez Maak met en relation les personnes qui souhaitent recevoir des objets entre l'Europe et la Tunisie avec des voyageurs et transporteurs disposant d'espace.",
 
     travelButton:
       "✈️ Je voyage",
@@ -1550,6 +1676,9 @@ const translations = {
 
     tunisia:
       "Tunisie",
+
+    europeLabel:
+      "Europe",
 
     routeDescription:
       "Vous avez de la place dans votre valise ? Aidez quelqu'un et gagnez de l'argent.",
@@ -2233,7 +2362,25 @@ const translations = {
       "Mentions légales",
 
     footerCookiePreferences:
-      "Préférences Cookies"
+      "Préférences Cookies",
+
+    countriesMustDiffer:
+      "Le départ et l'arrivée doivent être dans des pays différents.",
+
+    oneMustBeTunisia:
+      "L'une des deux étapes (départ ou arrivée) doit être la Tunisie.",
+
+    europeTunisia:
+      "🇪🇺 Europe ↔ 🇹🇳 Tunisie",
+
+    reviewsLabel:
+      "LA COMMUNAUTÉ EN PARLE",
+
+    reviewsHomeTitle:
+      "Les témoignages de nos utilisateurs",
+
+    noReviewsYet:
+      "Aucun avis pour le moment. Soyez le premier !"
 
   },
 
@@ -2252,13 +2399,13 @@ const translations = {
       "دخول / تسجيل",
 
     badge:
-      "🇮🇹 إيطاليا ↔ 🇹🇳 تونس",
+      "🇪🇺 أوروبا ↔ 🇹🇳 تونس",
 
     heroTitle:
       "هزّ اللي يلزم. <span>تواصل.</span> واربح.",
 
     heroText:
-      "هزّ معاك تربط بين الناس اللي يحبّوا يبعثوا حاجات بين إيطاليا وتونس والمسافرين والناقلين اللي عندهم بلاصة.",
+      "هزّ معاك تربط بين الناس اللي يحبّوا يبعثوا حاجات بين أوروبا وتونس والمسافرين والناقلين اللي عندهم بلاصة.",
 
     travelButton:
       "✈️ أنا مسافر",
@@ -2283,6 +2430,9 @@ const translations = {
 
     tunisia:
       "تونس",
+
+    europeLabel:
+      "أوروبا",
 
     routeDescription:
       "عندك بلاصة في الفاليزة؟ تنجم تعاون شكون وتربح فلوس.",
@@ -2966,7 +3116,25 @@ const translations = {
       "قانوني",
 
     footerCookiePreferences:
-      "تفضيلات الكوكيز"
+      "تفضيلات الكوكيز",
+
+    countriesMustDiffer:
+      "الانطلاق والوصول لازم يكونوا في بلاد مختلفة.",
+
+    oneMustBeTunisia:
+      "لازم واحدة من الوجهتين (الانطلاق ولا الوصول) تكون تونس.",
+
+    europeTunisia:
+      "🇪🇺 أوروبا ↔ 🇹🇳 تونس",
+
+    reviewsLabel:
+      "المجتمع يحكي",
+
+    reviewsHomeTitle:
+      "قصص ناس استعملو هزّ معاك",
+
+    noReviewsYet:
+      "ما فماش تقييمات توّا. كون أول واحد يخلي وحدة!"
 
   }
 
@@ -3118,6 +3286,12 @@ document.addEventListener(
 
     loadRequests();
 
+    loadHomeReviews();
+
+    initPhotoCarousel();
+
+    initContentCarousels();
+
     initCookieBanner();
 
   }
@@ -3162,6 +3336,186 @@ function acceptCookies() {
   if (banner) {
     banner.style.display = "none";
   }
+
+}
+
+
+/* =====================================================
+   RECENSIONI IN HOME
+===================================================== */
+
+async function loadHomeReviews() {
+
+  const container =
+    document.getElementById("homeReviewsContainer");
+
+  if (!container) return;
+
+  const { data, error } =
+    await supabaseClient
+      .from("reviews")
+      .select(`
+        id,
+        rating,
+        comment,
+        created_at,
+        reviewed_user_id,
+        profiles!reviews_reviewed_user_id_fkey (
+          full_name,
+          avatar_url
+        )
+      `)
+      .not("comment", "is", null)
+      .order("created_at", { ascending: false })
+      .limit(6);
+
+  if (error) {
+
+    console.error("Errore caricamento recensioni home:", error);
+
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>${t("noReviewsYet")}</p>
+      </div>
+    `;
+
+    return;
+
+  }
+
+  if (!data || !data.length) {
+
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>${t("noReviewsYet")}</p>
+      </div>
+    `;
+
+    return;
+
+  }
+
+  container.innerHTML =
+    data.map(reviewHomeCard).join("");
+
+}
+
+
+function reviewHomeCard(review) {
+
+  const profile = review.profiles || {};
+
+  const rating =
+    Math.max(1, Math.min(5, Number(review.rating) || 0));
+
+  const stars = "⭐".repeat(rating);
+
+  const date =
+    review.created_at
+      ? new Date(review.created_at).toLocaleDateString("it-IT")
+      : "";
+
+  return `
+    <div class="review-home-card">
+
+      <div class="review-home-header">
+
+        ${avatarHtml(profile.avatar_url, 40)}
+
+        <div>
+          <strong>${escapeHtml(profile.full_name || "Utente Hez Maak")}</strong>
+          <div class="review-home-stars">${stars}</div>
+        </div>
+
+      </div>
+
+      <p class="review-home-comment">
+        "${escapeHtml(review.comment)}"
+      </p>
+
+      <span class="review-home-date">${date}</span>
+
+    </div>
+  `;
+
+}
+
+
+/* =====================================================
+   CAROSELLO FOTO
+===================================================== */
+
+let carouselIndex = 0;
+let carouselSlideCount = 0;
+
+function initPhotoCarousel() {
+
+  const track =
+    document.getElementById("photoCarouselTrack");
+
+  const dotsContainer =
+    document.getElementById("carouselDots");
+
+  if (!track || !dotsContainer) return;
+
+  const slides =
+    track.querySelectorAll(".photo-carousel-slide");
+
+  carouselSlideCount = slides.length;
+
+  dotsContainer.innerHTML =
+    Array.from(slides)
+      .map((_, i) => `
+        <button
+          type="button"
+          class="carousel-dot ${i === 0 ? "active" : ""}"
+          onclick="goToPhotoCarouselSlide(${i})"
+        ></button>
+      `)
+      .join("");
+
+  // Auto-scroll ogni 4 secondi
+  setInterval(() => {
+    movePhotoCarousel(1);
+  }, 4000);
+
+}
+
+
+function movePhotoCarousel(direction) {
+
+  carouselIndex =
+    (carouselIndex + direction + carouselSlideCount) % carouselSlideCount;
+
+  applyCarouselPosition();
+
+}
+
+
+function goToPhotoCarouselSlide(index) {
+
+  carouselIndex = index;
+
+  applyCarouselPosition();
+
+}
+
+
+function applyCarouselPosition() {
+
+  const track =
+    document.getElementById("photoCarouselTrack");
+
+  if (!track) return;
+
+  track.style.transform =
+    `translateX(-${carouselIndex * 100}%)`;
+
+  document
+    .querySelectorAll(".carousel-dot")
+    .forEach((dot, i) => {
+      dot.classList.toggle("active", i === carouselIndex);
+    });
 
 }
 
@@ -3216,6 +3570,10 @@ function updateHeader() {
       () => openAuth("login");
 
   }
+
+  updateNotificationBell();
+
+  updateMessagesButton();
 
 }
 
@@ -3421,13 +3779,7 @@ function createAuthModal() {
 
           <select id="registerCountry">
 
-            <option value="italy">
-              🇮🇹 ${t("italy")}
-            </option>
-
-            <option value="tunisia">
-              🇹🇳 ${t("tunisia")}
-            </option>
+            ${countryOptions("tunisia")}
 
           </select>
 
@@ -3922,9 +4274,7 @@ async function showProfile() {
 
 
   const country =
-    profile.country === "tunisia"
-      ? "🇹🇳 " + t("tunisia")
-      : "🇮🇹 " + t("italy");
+    countryFlag(profile.country) + " " + countryName(profile.country);
 
 
   const type =
@@ -4521,6 +4871,433 @@ function avatarHtml(avatarUrl, size = 44) {
 
 
 
+/* =====================================================
+   SISTEMA DI NOTIFICHE (rotte di interesse)
+===================================================== */
+
+async function notifyMatchingUsers({
+  matchTable,
+  matchDepartureCountry,
+  matchArrivalCountry,
+  notificationType,
+  title,
+  message,
+  tripId = null,
+  requestId = null
+}) {
+
+  try {
+
+    const statusField =
+      matchTable === "trips"
+        ? "status"
+        : "status";
+
+    const statusValue =
+      matchTable === "trips"
+        ? "active"
+        : "open";
+
+    const { data: matches, error } =
+      await supabaseClient
+        .from(matchTable)
+        .select("id, user_id")
+        .eq("departure_country", matchDepartureCountry)
+        .eq("arrival_country", matchArrivalCountry)
+        .eq(statusField, statusValue)
+        .neq("user_id", currentUser.id);
+
+    if (error) {
+      console.error("Errore ricerca utenti da notificare:", error);
+      return;
+    }
+
+    if (!matches || !matches.length) {
+      return;
+    }
+
+    // Evita di notificare due volte lo stesso utente
+    const uniqueUserIds =
+      [...new Set(matches.map(m => m.user_id))];
+
+    const notifications =
+      uniqueUserIds.map(userId => ({
+        user_id: userId,
+        type: notificationType,
+        title: title,
+        message: message,
+        trip_id: tripId,
+        request_id: requestId
+      }));
+
+    await supabaseClient
+      .from("notifications")
+      .insert(notifications);
+
+  } catch (error) {
+
+    console.error("Errore invio notifiche:", error);
+
+  }
+
+}
+
+
+let notificationsChannel = null;
+
+
+async function updateNotificationBell() {
+
+  if (!currentUser) {
+    removeNotificationBell();
+    return;
+  }
+
+  showNotificationBell();
+
+  await refreshNotificationBadge();
+
+  if (notificationsChannel) {
+    supabaseClient.removeChannel(notificationsChannel);
+  }
+
+  notificationsChannel = supabaseClient
+    .channel(`notifications_${currentUser.id}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "notifications",
+        filter: `user_id=eq.${currentUser.id}`
+      },
+      payload => {
+
+        showToast("🔔 " + payload.new.title);
+
+        refreshNotificationBadge();
+
+      }
+    )
+    .subscribe();
+
+}
+
+
+async function refreshNotificationBadge() {
+
+  if (!currentUser) return;
+
+  const { count, error } =
+    await supabaseClient
+      .from("notifications")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", currentUser.id)
+      .eq("is_read", false);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const badge =
+    document.getElementById("notificationBadge");
+
+  if (badge) {
+    badge.textContent = count > 0 ? count : "";
+    badge.style.display = count > 0 ? "flex" : "none";
+  }
+
+}
+
+
+function showNotificationBell() {
+
+  let button =
+    document.getElementById("notificationBellButton");
+
+  if (button) return;
+
+  button = document.createElement("button");
+  button.id = "notificationBellButton";
+  button.type = "button";
+  button.className = "icon-button notification-bell";
+  button.title = "Notifiche";
+  button.innerHTML = `
+    🔔
+    <span id="notificationBadge" class="notify-badge" style="display:none"></span>
+  `;
+  button.onclick = openNotificationsPanel;
+
+  const nav =
+    document.getElementById("mainNav");
+
+  if (nav) {
+    const authButton =
+      document.getElementById("authButton");
+
+    if (authButton) {
+      nav.insertBefore(button, authButton);
+    } else {
+      nav.appendChild(button);
+    }
+  }
+
+}
+
+
+function removeNotificationBell() {
+
+  const button =
+    document.getElementById("notificationBellButton");
+
+  if (button) {
+    button.remove();
+  }
+
+  if (notificationsChannel) {
+    supabaseClient.removeChannel(notificationsChannel);
+    notificationsChannel = null;
+  }
+
+}
+
+
+/* =====================================================
+   ICONA MESSAGGI IN HEADER
+   (accessibile da qualsiasi pagina, come le notifiche)
+===================================================== */
+
+let messagesBadgeChannel = null;
+
+async function updateMessagesButton() {
+
+  if (!currentUser) {
+    removeMessagesButton();
+    return;
+  }
+
+  showMessagesButton();
+
+  await refreshMessagesUnreadCount();
+
+  if (messagesBadgeChannel) {
+    supabaseClient.removeChannel(messagesBadgeChannel);
+  }
+
+  messagesBadgeChannel = supabaseClient
+    .channel(`messages_badge_${currentUser.id}`)
+    .on(
+      "postgres_changes",
+      { event: "INSERT", schema: "public", table: "messages" },
+      () => {
+        refreshMessagesUnreadCount();
+      }
+    )
+    .on(
+      "postgres_changes",
+      { event: "UPDATE", schema: "public", table: "messages" },
+      () => {
+        refreshMessagesUnreadCount();
+      }
+    )
+    .subscribe();
+
+}
+
+
+function showMessagesButton() {
+
+  let button =
+    document.getElementById("messagesBellButton");
+
+  if (button) return;
+
+  button = document.createElement("button");
+  button.id = "messagesBellButton";
+  button.type = "button";
+  button.className = "icon-button notification-bell";
+  button.title = "Messaggi";
+  button.innerHTML = `
+    💬
+    <span id="messagesBadge" class="notify-badge" style="display:none"></span>
+  `;
+  button.onclick = openMessages;
+
+  const nav =
+    document.getElementById("mainNav");
+
+  if (nav) {
+
+    const bell =
+      document.getElementById("notificationBellButton");
+
+    const authButton =
+      document.getElementById("authButton");
+
+    if (bell) {
+      nav.insertBefore(button, bell);
+    } else if (authButton) {
+      nav.insertBefore(button, authButton);
+    } else {
+      nav.appendChild(button);
+    }
+
+  }
+
+}
+
+
+function removeMessagesButton() {
+
+  const button =
+    document.getElementById("messagesBellButton");
+
+  if (button) {
+    button.remove();
+  }
+
+  if (messagesBadgeChannel) {
+    supabaseClient.removeChannel(messagesBadgeChannel);
+    messagesBadgeChannel = null;
+  }
+
+}
+
+
+async function refreshMessagesUnreadCount() {
+
+  if (!currentUser) return;
+
+  const { data, error } =
+    await supabaseClient
+      .from("messages")
+      .select("*")
+      .is("read_at", null)
+      .neq("sender_id", currentUser.id);
+
+  if (error) {
+    console.warn("Errore conteggio messaggi:", error);
+    return;
+  }
+
+  refreshMessagesBadge(data ? data.length : 0);
+
+}
+
+
+function refreshMessagesBadge(count) {
+
+  const badge =
+    document.getElementById("messagesBadge");
+
+  if (!badge) return;
+
+  badge.textContent = count > 0 ? count : "";
+  badge.style.display = count > 0 ? "flex" : "none";
+
+}
+
+
+async function openNotificationsPanel() {
+
+  if (!currentUser) {
+    openAuth("login");
+    return;
+  }
+
+  const { data: notifications, error } =
+    await supabaseClient
+      .from("notifications")
+      .select("*")
+      .eq("user_id", currentUser.id)
+      .order("created_at", { ascending: false })
+      .limit(30);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const old =
+    document.getElementById("notificationsModal");
+
+  if (old) old.remove();
+
+  const modal = document.createElement("div");
+  modal.id = "notificationsModal";
+  modal.className = "chat-modal";
+
+  let listHtml = "";
+
+  if (!notifications || !notifications.length) {
+
+    listHtml = `
+      <div class="empty-state">
+        <h3>🔔 Nessuna notifica</h3>
+        <p>Ti avviseremo quando ci sarà qualcosa sulla tua rotta.</p>
+      </div>
+    `;
+
+  } else {
+
+    listHtml = notifications.map(n => {
+
+      const date =
+        new Date(n.created_at).toLocaleString("it-IT");
+
+      return `
+        <div class="conversation-item ${n.is_read ? "" : "unread"}">
+          <strong>${escapeHtml(n.title)}</strong><br>
+          <span>${escapeHtml(n.message || "")}</span><br>
+          <small style="opacity:.6">${date}</small>
+        </div>
+      `;
+
+    }).join("");
+
+  }
+
+  modal.innerHTML = `
+    <div class="chat-box">
+      <div class="chat-header">
+        <span>🔔 Notifiche</span>
+        <div>
+          <button class="chat-close" onclick="closeNotificationsPanel()">×</button>
+        </div>
+      </div>
+      <div class="chat-messages" style="height:400px; overflow-y:auto;">
+        ${listHtml}
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // Segna tutte come lette all'apertura
+  await supabaseClient
+    .from("notifications")
+    .update({ is_read: true })
+    .eq("user_id", currentUser.id)
+    .eq("is_read", false);
+
+  refreshNotificationBadge();
+
+}
+
+
+function closeNotificationsPanel() {
+
+  const modal =
+    document.getElementById("notificationsModal");
+
+  if (modal) modal.remove();
+
+}
+
+
+
+
 async function openMessages() {
 
   if (!currentUser) {
@@ -5089,13 +5866,7 @@ function createTripModal() {
         <select
           id="tripDepartureCountry">
 
-          <option value="italy">
-            🇮🇹 ${t("italy")}
-          </option>
-
-          <option value="tunisia">
-            🇹🇳 ${t("tunisia")}
-          </option>
+          ${countryOptions("italy")}
 
         </select>
 
@@ -5108,13 +5879,7 @@ function createTripModal() {
         <select
           id="tripArrivalCountry">
 
-          <option value="tunisia">
-            🇹🇳 ${t("tunisia")}
-          </option>
-
-          <option value="italy">
-            🇮🇹 ${t("italy")}
-          </option>
+          ${countryOptions("tunisia")}
 
         </select>
 
@@ -5343,11 +6108,23 @@ async function publishTrip() {
   ) {
 
     message.textContent =
-      currentLanguage === "it"
-        ? "Partenza e arrivo devono essere in paesi diversi."
-        : currentLanguage === "fr"
-          ? "Le départ et l'arrivée doivent être dans des pays différents."
-          : "الانطلاق والوصول لازم يكونوا في بلاد مختلفة.";
+      t("countriesMustDiffer");
+
+    message.className =
+      "auth-error";
+
+    return;
+
+  }
+
+
+  if (
+    departureCountry !== "tunisia" &&
+    arrivalCountry !== "tunisia"
+  ) {
+
+    message.textContent =
+      t("oneMustBeTunisia");
 
     message.className =
       "auth-error";
@@ -5493,6 +6270,7 @@ async function publishTrip() {
 
 
   const {
+    data: insertedTrip,
     error: tripError
   } =
     await supabaseClient
@@ -5535,7 +6313,9 @@ async function publishTrip() {
         status:
           "active"
 
-      });
+      })
+      .select()
+      .single();
 
 
   if (tripError) {
@@ -5563,6 +6343,19 @@ async function publishTrip() {
     return;
 
   }
+
+
+  // Notifica gli utenti con una richiesta aperta sulla stessa rotta
+  notifyMatchingUsers({
+    matchTable: "requests",
+    matchDepartureCountry: departureCountry,
+    matchArrivalCountry: arrivalCountry,
+    notificationType: "new_trip_match",
+    title: "✈️ Nuovo viaggio sulla tua rotta!",
+    message:
+      `${countryFlag(departureCountry)} ${departureCity} → ${countryFlag(arrivalCountry)} ${arrivalCity}`,
+    tripId: insertedTrip?.id || null
+  });
 
 
   message.textContent =
@@ -5910,13 +6703,7 @@ function createRequestModal() {
         <select
           id="requestDeparture">
 
-          <option value="tunisia">
-            🇹🇳 ${t("tunisia")}
-          </option>
-
-          <option value="italy">
-            🇮🇹 ${t("italy")}
-          </option>
+          ${countryOptions("tunisia")}
 
         </select>
 
@@ -5924,13 +6711,7 @@ function createRequestModal() {
         <select
           id="requestArrival">
 
-          <option value="italy">
-            🇮🇹 ${t("italy")}
-          </option>
-
-          <option value="tunisia">
-            🇹🇳 ${t("tunisia")}
-          </option>
+          ${countryOptions("italy")}
 
         </select>
 
@@ -6129,11 +6910,23 @@ async function publishRequest() {
   ) {
 
     message.textContent =
-      currentLanguage === "it"
-        ? "I paesi devono essere diversi."
-        : currentLanguage === "fr"
-          ? "Les pays doivent être différents."
-          : "البلاد لازم تكون مختلفة.";
+      t("countriesMustDiffer");
+
+    message.className =
+      "auth-error";
+
+    return;
+
+  }
+
+
+  if (
+    departure !== "tunisia" &&
+    arrival !== "tunisia"
+  ) {
+
+    message.textContent =
+      t("oneMustBeTunisia");
 
     message.className =
       "auth-error";
@@ -6144,6 +6937,7 @@ async function publishRequest() {
 
 
   const {
+    data: insertedRequest,
     error
   } =
     await supabaseClient
@@ -6180,7 +6974,9 @@ async function publishRequest() {
         status:
           "open"
 
-      });
+      })
+      .select()
+      .single();
 
 
   if (error) {
@@ -6194,6 +6990,19 @@ async function publishRequest() {
     return;
 
   }
+
+
+  // Notifica gli utenti con un viaggio attivo sulla stessa rotta
+  notifyMatchingUsers({
+    matchTable: "trips",
+    matchDepartureCountry: departure,
+    matchArrivalCountry: arrival,
+    notificationType: "new_request_match",
+    title: "📦 Nuova richiesta sulla tua rotta!",
+    message:
+      `${countryFlag(departure)} ${departureCity} → ${countryFlag(arrival)} ${arrivalCity}`,
+    requestId: insertedRequest?.id || null
+  });
 
 
   message.textContent =
@@ -7594,9 +8403,7 @@ function goHome() {
 
 function flag(country) {
 
-  return country === "italy"
-    ? "🇮🇹"
-    : "🇹🇳";
+  return countryFlag(country);
 
 }
 
@@ -10017,27 +10824,39 @@ async function loadAdminPanel() {
 
 
     // ==========================================
-    // CONTEGGIO UTENTI ISCRITTI
+    // LISTA UTENTI ISCRITTI
     // ==========================================
 
     const {
-        count: totalUsers,
-        error: usersCountError
+        data: allUsers,
+        error: usersError
     } = await supabaseClient
         .from("profiles")
-        .select("*", {
-            count: "exact",
-            head: true
+        .select(`
+            id,
+            full_name,
+            country,
+            user_type,
+            is_verified,
+            rating,
+            reviews_count,
+            created_at
+        `)
+        .order("created_at", {
+            ascending: false
         });
 
-    if (usersCountError) {
+    if (usersError) {
 
         console.error(
-            "Errore conteggio utenti:",
-            usersCountError
+            "Errore caricamento utenti:",
+            usersError
         );
 
     }
+
+    const totalUsers =
+        allUsers ? allUsers.length : null;
 
 
     // ==========================================
@@ -10488,6 +11307,58 @@ async function loadAdminPanel() {
 
                 </div>
 
+
+                <!-- ================================= -->
+                <!-- UTENTI ISCRITTI -->
+                <!-- ================================= -->
+
+                <div
+                    class="profile-header"
+                    style="margin-top:40px;"
+                >
+
+                    <span class="section-label">
+                        COMMUNITY
+                    </span>
+
+                    <h2>
+                        👥 Utenti iscritti (${totalUsers ?? 0})
+                    </h2>
+
+                    <p>
+                        Elenco di tutti gli utenti registrati sulla piattaforma.
+                    </p>
+
+                </div>
+
+
+                <div id="adminUsers">
+
+                    ${
+                        allUsers && allUsers.length
+
+                        ? allUsers
+                            .map(
+                                user =>
+                                    adminUserHTML(user)
+                            )
+                            .join("")
+
+                        : `
+
+                            <div class="profile-card">
+
+                                <h3>
+                                    Nessun utente registrato
+                                </h3>
+
+                            </div>
+
+                        `
+                    }
+
+                </div>
+
             </div>
 
         </div>
@@ -10817,6 +11688,68 @@ async function resolveReport(reportId, newStatus) {
             ? "✓ Segnalazione risolta"
             : "Segnalazione ignorata"
     );
+
+}
+
+
+function adminUserHTML(user) {
+
+    const date =
+        user.created_at
+            ? new Date(user.created_at).toLocaleDateString("it-IT")
+            : "-";
+
+    const typeLabel =
+        user.user_type === "company"
+            ? "🚚 Azienda"
+            : user.user_type === "traveler"
+                ? "✈️ Viaggiatore"
+                : "👤 Privato";
+
+    const rating =
+        Number(user.rating || 0).toFixed(1);
+
+    return `
+
+        <div class="profile-card admin-request">
+
+            <div>
+
+                <span class="section-label">
+                    ISCRITTO IL ${date}
+                </span>
+
+                <h3>
+
+                    ${escapeHtml(user.full_name || "Utente senza nome")}
+
+                    ${
+                        user.is_verified
+                            ? `<span class="verified">✓ Verificato</span>`
+                            : ""
+                    }
+
+                </h3>
+
+                <p>
+                    ${countryFlag(user.country)} ${escapeHtml(countryName(user.country))}
+                    &nbsp;·&nbsp;
+                    ${typeLabel}
+                </p>
+
+                <p>
+                    ⭐ ${rating} (${user.reviews_count || 0} recensioni)
+                </p>
+
+                <p>
+                    <code>${escapeHtml(user.id)}</code>
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
 
 }
 
@@ -12035,16 +12968,21 @@ async function updateUnreadCount() {
     .is("read_at", null)
     .neq("sender_id", currentUser.id);
 
+  const target = document.getElementById("unreadCount");
+
   if (error || !data) {
     console.warn("Errore unreadCount:", error);
-    document.getElementById("unreadCount").textContent = "";
+    if (target) target.textContent = "";
     return;
   }
 
   const count = data.length;
 
-  document.getElementById("unreadCount").textContent =
-    count > 0 ? `(${count})` : "";
+  if (target) {
+    target.textContent = count > 0 ? `(${count})` : "";
+  }
+
+  refreshMessagesBadge(count);
 }
 async function markMessagesAsRead(conversationId) {
   const { error } = await supabaseClient
@@ -12314,5 +13252,121 @@ async function hasAlreadyReviewed(conversationId) {
   }
 
   return !!data;
+
+}
+
+
+/* =====================================================
+   CAROSELLI CONTENUTI
+   (Come funziona / Viaggi / Richieste)
+===================================================== */
+
+function initContentCarousels() {
+
+  document
+    .querySelectorAll(".hm-carousel")
+    .forEach(setupContentCarousel);
+
+}
+
+
+function setupContentCarousel(carousel) {
+
+  const track =
+    carousel.querySelector(".hm-track");
+
+  if (!track) return;
+
+  const prev =
+    carousel.querySelector(".hm-prev");
+
+  const next =
+    carousel.querySelector(".hm-next");
+
+
+  const stepSize = () => {
+
+    const first =
+      track.firstElementChild;
+
+    const gap =
+      parseFloat(
+        getComputedStyle(track).columnGap
+      ) || 20;
+
+    return first
+      ? first.getBoundingClientRect().width + gap
+      : track.clientWidth * 0.8;
+
+  };
+
+
+  const update = () =>
+    updateCarouselArrows(track, prev, next);
+
+
+  if (prev) {
+    prev.addEventListener("click", () => {
+      scrollCarouselTrack(track, -1, stepSize());
+    });
+  }
+
+  if (next) {
+    next.addEventListener("click", () => {
+      scrollCarouselTrack(track, 1, stepSize());
+    });
+  }
+
+
+  track.addEventListener(
+    "scroll",
+    update,
+    { passive: true }
+  );
+
+  window.addEventListener("resize", update);
+
+  // Le card di viaggi e richieste arrivano da Supabase:
+  // aggiorniamo le frecce quando il contenuto cambia.
+  new MutationObserver(update)
+    .observe(track, { childList: true });
+
+  update();
+
+}
+
+
+function scrollCarouselTrack(track, direction, amount) {
+
+  const rtl =
+    document.documentElement.dir === "rtl";
+
+  track.scrollBy({
+    left: amount * direction * (rtl ? -1 : 1),
+    behavior: "smooth"
+  });
+
+}
+
+
+function updateCarouselArrows(track, prev, next) {
+
+  const position =
+    Math.abs(track.scrollLeft);
+
+  const max =
+    track.scrollWidth - track.clientWidth;
+
+  const scrollable = max > 4;
+
+  if (prev) {
+    prev.disabled =
+      !scrollable || position <= 2;
+  }
+
+  if (next) {
+    next.disabled =
+      !scrollable || position >= max - 2;
+  }
 
 }
