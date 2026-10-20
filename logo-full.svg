@@ -1,95 +1,97 @@
-<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img">
-  <title>Hez Maak - EU Version</title>
-
+<svg xmlns="http://w3.org" viewBox="0 0 500 500" width="100%" height="100%">
   <defs>
-    <clipPath id="innerCircleClip">
-      <circle cx="200" cy="200" r="180"/>
-    </clipPath>
     <style>
-      .main-blue { fill: #16324f; }
-      .stroke-blue { stroke: #16324f; stroke-width: 3.5; fill: none; }
-      .dashed-path { stroke: #16324f; stroke-width: 2.5; stroke-dasharray: 5,5; fill: none; stroke-linecap: round; }
-      .tunisia-red { fill: #e21a22; }
-      .eu-blue { fill: #003399; }
-      .eu-star { fill: #ffcc00; }
+      .outer-border { fill: none; stroke: #0d3863; stroke-width: 14; }
+      .main-blue-text { fill: #0d3863; }
+      .stroke-blue-elements { stroke: #0d3863; stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .dashed-path-line { stroke: #0d3863; stroke-width: 3; stroke-dasharray: 6,6; fill: none; stroke-linecap: round; }
+      .bottom-cap { fill: #0d3863; }
+      .tunisia-red-bg { fill: #e21a22; }
+      .eu-blue-bg { fill: #003399; }
+      .eu-yellow-star { fill: #ffcc00; }
     </style>
   </defs>
 
-  <!-- Anello esterno blu notte -->
-  <circle cx="200" cy="200" r="196" fill="#16324f"/>
+  <!-- Sfondo bianco interno del cerchio -->
+  <circle cx="250" cy="250" r="235" fill="#ffffff" />
 
-  <!-- Sfondo crema interno con clip path -->
-  <circle cx="200" cy="200" r="186" fill="#fcfbf7" />
+  <!-- Bordo circolare esterno blu notte -->
+  <circle cx="250" cy="250" r="238" class="outer-border" />
 
-  <g clip-path="url(#innerCircleClip)">
-    <!-- Aeroplano di carta in alto -->
-    <g transform="translate(130, 45) scale(0.7)" stroke="#16324f" stroke-width="4.5" fill="none" stroke-linejoin="round">
-      <polygon points="50,15 10,75 90,55" />
-      <polygon points="50,15 50,85 90,55" />
-      <path d="M 50,65 L 50,85" />
+  <!-- Aeroplano di carta superiore -->
+  <g transform="translate(160, 45) scale(0.95)" stroke="#0d3863" stroke-width="4.5" fill="none" stroke-linejoin="round">
+    <polygon points="50,15 10,75 90,55" />
+    <polygon points="50,15 50,85 90,55" />
+    <path d="M 50,65 L 50,85" />
+  </g>
+
+  <!-- Scia tratteggiata curva in alto a destra -->
+  <path d="M 260,115 Q 320,90 370,110 T 425,160" class="dashed-path-line" />
+
+  <!-- Testo Calligrafico Arabo Vettoriale (Ufficiale ed Esatto) -->
+  <g class="main-blue-text" transform="translate(0, -5)">
+    <!-- Lettera Hā e lettere finali collegate -->
+    <path d="M 375,225 C 375,185 435,175 435,230 C 435,265 400,270 365,270 C 335,270 325,245 325,225 C 325,185 360,190 370,210 C 375,220 365,235 355,230 C 350,225 350,215 360,210" stroke="#0d3863" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="340" cy="170" r="7.5" />
+    <circle cx="360" cy="170" r="7.5" />
+    <!-- Segmento centrale del testo -->
+    <path d="M 330,255 C 305,255 300,215 275,215 C 245,215 245,265 285,265 C 305,265 315,250 330,253" stroke="#0d3863" stroke-width="6.5" fill="none"/>
+    <path d="M 290,240 C 290,220 260,220 260,240 C 260,260 280,260 290,240 Z" />
+    <!-- Inizio della parola e gancio sinistro -->
+    <path d="M 255,257 C 225,257 210,215 185,220 C 165,223 155,245 175,260 C 190,270 215,265 235,265 C 240,265 241,205 242,170" stroke="#0d3863" stroke-width="11" fill="none" stroke-linecap="round"/>
+    <path d="M 165,190 L 165,250 C 165,270 115,270 90,255 C 70,243 70,215 85,200" stroke="#0d3863" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 120,215 Q 135,220 131,230 T 146,230" stroke="#0d3863" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Linee fluide inferiori tricolore sfumate (Verde e Rosso) -->
+  <path d="M 98,295 C 135,280 225,275 305,283" stroke="#1d824c" stroke-width="9.5" fill="none" stroke-linecap="round" />
+  <path d="M 245,303 C 295,303 375,290 420,270" stroke="#e21a22" stroke-width="7.5" fill="none" stroke-linecap="round" />
+
+  <!-- Scia inferiore con Cuore e Aereo di linea -->
+  <path d="M 165,365 Q 195,375 215,360 Q 225,345 235,355 Q 245,365 250,355 Q 260,345 270,360 Q 290,375 330,360" class="dashed-path-line" />
+  <!-- Tracciato geometrico del cuore centrale -->
+  <path d="M 250,361 C 245,351 233,351 233,361 C 233,371 250,381 250,381 C 250,381 267,371 267,361 C 267,351 255,351 250,361 Z" fill="none" stroke="#0d3863" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Icona aereo di linea compatto sulla destra -->
+  <g transform="translate(295, 350) rotate(45) scale(0.75)" fill="#0d3863">
+    <path d="M0,10 L5,25 L15,25 L8,12 L18,5 L12,0 L0,5 L-12,0 L-18,5 L-8,12 L-15,25 L-5,25 Z"/>
+  </g>
+
+  <!-- BANDIERA DELLA TUNISIA (Lato sinistro) -->
+  <g transform="translate(85, 315) rotate(-14)">
+    <rect x="0" y="0" width="75" height="50" rx="9" class="tunisia-red-bg" />
+    <circle cx="37.5" cy="25" r="13" fill="#ffffff" />
+    <path d="M 40,15 C 32,15 26,20 26,25 C 26,30 32,35 40,35 C 35,35 30,31 30,25 C 30,19 35,15 40,15 Z" fill="#e21a22" />
+    <polygon points="39,21 41,24 45,24 42,26 43,30 40,28 37,30 38,26 35,24 39,24" fill="#e21a22" transform="rotate(-10 40 25)"/>
+  </g>
+
+  <!-- NUOVA BANDIERA DELL'UNIONE EUROPEA (Lato destro) -->
+  <g transform="translate(330, 330) rotate(14)">
+    <rect x="0" y="0" width="75" height="50" rx="9" class="eu-blue-bg" />
+    <!-- Disposizione circolare delle 12 stelle dorate europee -->
+    <g transform="translate(37.5, 25) scale(0.72)">
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(0, -17) scale(0.35)"/>
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(8.5, -14.7) scale(0.35)"/>
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(14.7, -8.5) scale(0.35)"/>
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(17, 0) scale(0.35)"/>
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(14.7, 8.5) scale(0.35)"/>
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(8.5, 14.7) scale(0.35)"/>
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(0, 17) scale(0.35)"/>
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(-8.5, 14.7) scale(0.35)"/>
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(-14.7, 8.5) scale(0.35)"/>
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(-17, 0) scale(0.35)"/>
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(-14.7, -8.5) scale(0.35)"/>
+      <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-yellow-star" transform="translate(-8.5, -14.7) scale(0.35)"/>
     </g>
+  </g>
 
-    <!-- Scia tratteggiata superiore -->
-    <path d="M 210,105 Q 260,85 300,100 T 350,140" class="dashed-path" />
+  <!-- Calotta sferica inferiore blu notte -->
+  <path d="M 62,422 A 220,220 0 0,0 438,422 A 235,235 0 0,1 62,422 Z" class="bottom-cap" />
 
-    <!-- Testo Calligrafico Arabo Vettoriale Centrato -->
-    <g class="main-blue" transform="translate(0, -5)">
-      <path d="M 320,185 C 320,150 370,140 370,190 C 370,220 340,225 310,225 C 285,225 275,200 275,185 C 275,150 305,155 315,170 C 320,180 310,192 300,188 C 295,184 295,175 305,170" stroke="#16324f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="290" cy="135" r="6.5" />
-      <circle cx="307" cy="135" r="6.5" />
-      <path d="M 280,212 C 260,212 255,178 234,178 C 208,178 208,220 242,220 C 260,220 268,208 280,210" stroke="#16324f" stroke-width="5.5" fill="none"/>
-      <path d="M 246,198 C 246,180 220,180 220,198 C 220,216 246,216 246,198 Z" />
-      <path d="M 215,214 C 188,214 175,178 153,182 C 136,184 128,203 145,216 C 158,224 180,220 197,220 C 201,220 202,168 203,138" stroke="#16324f" stroke-width="10" fill="none" stroke-linecap="round"/>
-      <path d="M 137,155 L 137,208 C 137,225 93,225 72,212 C 55,202 55,178 68,165" stroke="#16324f" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M 98,177 Q 110,182 106,190 T 119,190" stroke="#16324f" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-    </g>
-
-    <!-- Onde dinamiche inferiori (Verde e Rossa) -->
-    <path d="M 85,250 C 120,235 200,232 270,240" stroke="#1d824c" stroke-width="8" fill="none" stroke-linecap="round" />
-    <path d="M 210,258 C 250,258 315,248 355,232" stroke="#e21a22" stroke-width="6" fill="none" stroke-linecap="round" />
-
-    <!-- Scia inferiore con aereo e cuore -->
-    <path d="M 130,315 Q 160,325 180,310 Q 200,295 220,310 Q 250,325 280,310" class="dashed-path" />
-    <path d="M 200,311 C 196,303 186,303 186,311 C 186,319 200,327 200,327 C 200,327 214,319 214,311 C 214,303 204,303 200,311 Z" fill="none" stroke="#16324f" stroke-width="2" />
-    <g transform="translate(245, 305) rotate(40) scale(0.55)" fill="#16324f">
-      <path d="M0,10 L5,25 L15,25 L8,12 L18,5 L12,0 L0,5 L-12,0 L-18,5 L-8,12 L-15,25 L-5,25 Z"/>
-    </g>
-
-    <!-- BANDIERA TUNISIA (Sinistra) -->
-    <g transform="translate(70, 275) rotate(-12)">
-      <rect x="0" y="0" width="60" height="40" rx="6" class="tunisia-red" />
-      <circle cx="30" cy="20" r="11" fill="#ffffff" />
-      <path d="M 32,12 C 26,12 21,16 21,20 C 21,24 26,28 32,28 C 28,28 24,25 24,20 C 24,15 28,12 32,12 Z" fill="#e21a22" />
-      <polygon points="31,16 32,18 35,18 33,20 34,23 32,21 30,23 31,20 28,18 30,18" fill="#e21a22" />
-    </g>
-
-    <!-- NUOVA BANDIERA UNIONE EUROPEA (Destra) -->
-    <g transform="translate(270, 285) rotate(12)">
-      <rect x="0" y="0" width="60" height="40" rx="6" class="eu-blue" />
-      <!-- Cerchio di 12 stelle UE geometriche -->
-      <g transform="translate(30, 20) scale(0.65)">
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(0, -16) scale(0.3)"/>
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(8, -13.8) scale(0.3)"/>
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(13.8, -8) scale(0.3)"/>
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(16, 0) scale(0.3)"/>
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(13.8, 8) scale(0.3)"/>
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(8, 13.8) scale(0.3)"/>
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(0, 16) scale(0.3)"/>
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(-8, 13.8) scale(0.3)"/>
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(-13.8, 8) scale(0.3)"/>
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(-16, 0) scale(0.3)"/>
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(-13.8, -8) scale(0.3)"/>
-        <polygon points="0,-15 3,-6 11,-6 5,-1 7,7 0,2 -7,7 -5,-1 -11,-6 -3,-6" class="eu-star" transform="translate(-8, -13.8) scale(0.3)"/>
-      </g>
-    </g>
-
-    <!-- Calotta sferica inferiore blu notte -->
-    <path d="M 56,338 A 180,180 0 0,0 344,338 A 180,180 0 0,1 56,338 Z" fill="#16324f" />
-
-    <!-- Icona Valigia bianca al centro in basso -->
-    <g transform="translate(180, 348) scale(0.75)" stroke="#ffffff" stroke-width="4.5" fill="none" stroke-linejoin="round" stroke-linecap="round">
-      <rect x="5" y="15" width="45" height="32" rx="5" />
-      <path d="M 17,15 L 17,6 C 17,4 19,2 21,2 L 34,2 C 36,2 38,4 38,6 L 38,15" />
-    </g>
+  <!-- Icona Valigia minimale bianca inserita nella calotta -->
+  <g transform="translate(225, 434) scale(0.9)" stroke="#ffffff" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="5" y="15" width="50" height="35" rx="6" />
+    <path d="M 20,15 L 20,5 C 20,3 22,1 25,1 L 35,1 C 38,1 40,3 40,5 L 40,15" />
+    <path d="M 20,25 L 20,45" stroke-width="1.8" opacity="0.6"/>
+    <path d="M 40,25 L 40,45" stroke-width="1.8" opacity="0.6"/>
   </g>
 </svg>
