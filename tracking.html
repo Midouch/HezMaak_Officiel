@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it" dir="ltr">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#e11d48">
+
+  <title>Hez Maak | Tracking</title>
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="trk-body">
+
+  <main class="trk-page">
+
+    <div class="trk-top">
+
+      <a class="trk-brand" href="index.html">
+        <img src="logo-icon.svg" alt="">
+        <span>Hez Maak</span>
+      </a>
+
+      <div class="trk-langs" id="trkLangs"></div>
+
+    </div>
+
+    <div class="trk-card">
+
+      <h1 id="trkTitle"></h1>
+
+      <p class="sub" id="trkSub"></p>
+
+      <form class="trk-form" id="trkForm">
+        <input id="trkCode" autocomplete="off" autocapitalize="characters" maxlength="20" placeholder="HM-XXXXXX">
+        <button type="submit" class="primary" id="trkBtn"></button>
+      </form>
+
+      <div class="trk-result" id="trkResult" aria-live="polite"></div>
+
+    </div>
+
+    <div class="trk-foot" id="trkFoot"></div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+
+  <script>
+
+  (function () {
+
+    var D = {
+      title:   ["Traccia il tuo pacco", "Track your parcel", "Suivez votre colis", "تتبّع طردك"],
+      sub:     ["Inserisci il codice che ti ha dato il trasportatore (es. HM-7K2P9Q).", "Enter the code your carrier gave you (e.g. HM-7K2P9Q).", "Saisissez le code donné par le transporteur (ex. HM-7K2P9Q).", "اكتب الكود إلي عطاك الناقل (مثلا HM-7K2P9Q)."],
+      btn:     ["Cerca", "Search", "Rechercher", "لوّج"],
+      notFound:["Nessuna spedizione trovata con questo codice.", "No shipment found with this code.", "Aucune expédition trouvée avec ce code.", "ما لقينا حتى شحنة بهذا الكود."],
+      error:   ["Servizio non disponibile. Riprova tra poco.", "Service unavailable. Please try again shortly.", "Service indisponible. Réessayez dans un instant.", "الخدمة موش متوفرة. عاود بعد شويّة."],
+      by:      ["Gestita da {name}", "Handled by {name}", "Gérée par {name}", "الشحنة عند {name}"],
+      packages:["{n} colli", "{n} packages", "{n} colis", "{n} طرود"],
+      updated: ["Ultimo aggiornamento", "Last update", "Dernière mise à jour", "آخر تحديث"],
+      cancelled:["Questa spedizione è stata annullata.", "This shipment has been cancelled.", "Cette expédition a été annulée.", "الشحنة هذي تلغات."],
+      foot:    ["Servizio offerto da", "Service provided by", "Service proposé par", "الخدمة من"],
+      received:["Ricevuto", "Received", "Reçu", "تسجّل"],
+      picked_up:["Ritirato", "Picked up", "Récupéré", "تم الاستلام"],
+      in_transit:["In viaggio", "In transit", "En route", "في الطريق"],
+      customs: ["In dogana", "At customs", "En douane", "في الديوانة"],
+      delivered:["Consegnato", "Delivered", "Livré", "تسلّمو المستلم"]
+    };
+
+    var LANGS = ["it", "en", "fr", "tn"];
+    var LABEL = { it: "IT", en: "EN", fr: "FR", tn: "تونسي" };
+    var STEPS = ["received", "picked_up", "in_transit", "customs", "delivered"];
+
+    var lang = localStorage.getItem("hezmaak_language");
+    if (LANGS.indexOf(lang) === -1) lang = "it";
+
+    var client = null;
+    try {
+      client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch (e) { client = null; }
+
+    var last = null;
+
+    function T(key, vars) {
+      var v = D[key] ? D[key][LANGS.indexOf(lang)] : key;
+      if (vars) Object.keys(vars).forEach(function (k) { v = v.split("{" + k + "}").join(vars[k]); });
+      return v;
+    }
+
+    function esc(s) {
+      return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    function loc() {
+      return { it: "it-IT", en: "en-GB", fr: "fr-FR", tn: "ar-TN" }[lang];
+    }
+
+    function fmt(d) {
+      var dt = new Date(d);
+      return isNaN(dt) ? "" : dt.toLocaleString(loc(), { dateStyle: "medium", timeStyle: "short" });
+    }
+
+    function paintStatic() {
+
+      document.documentElement.lang = lang === "tn" ? "ar" : lang;
+      document.documentElement.dir = lang === "tn" ? "rtl" : "ltr";
+
+      document.getElementById("trkTitle").textContent = T("title");
+      document.getElementById("trkSub").textContent = T("sub");
+      document.getElementById("trkBtn").textContent = T("btn");
+      document.getElementById("trkFoot").innerHTML = esc(T("foot")) + ' <a href="index.html">Hez Maak</a>';
+
+      document.getElementById("trkLangs").innerHTML = LANGS.map(function (l) {
+        return '<button type="button" class="' + (l === lang ? "on" : "") + '" data-l="' + l + '">' + LABEL[l] + "</button>";
+      }).join("");
+
+    }
+
+    function paintResult(data) {
+
+      var box = document.getElementById("trkResult");
+
+      if (data === "error") { box.innerHTML = '<div class="trk-msg">' + esc(T("error")) + "</div>"; return; }
+      if (!data) { box.innerHTML = '<div class="trk-msg">' + esc(T("notFound")) + "</div>"; return; }
+
+      var events = data.events || [];
+
+      var byStatus = {};
+      events.forEach(function (e) { byStatus[e.status] = e; });
+
+      var idx = STEPS.indexOf(data.status);
+
+      var steps = STEPS.map(function (s, i) {
+
+        var done = idx >= 0 && i <= idx;
+        var ev = byStatus[s];
+
+        return '<li class="' + (done ? "done" : "") + (i === idx ? " now" : "") + '">' +
+          "<b>" + esc(T(s)) + "</b>" +
+          (ev ? "<small>" + esc(fmt(ev.at)) + "</small>" : "") +
+          (ev && ev.note ? "<em>" + esc(ev.note) + "</em>" : "") +
+          "</li>";
+
+      }).join("");
+
+      var cancelled = data.status === "cancelled";
+
+      box.innerHTML =
+        '<div class="trk-head"><span class="trk-code">' + esc(data.code) + '</span>' +
+        '<span class="trk-status ' + (data.status === "delivered" ? "delivered" : cancelled ? "cancelled" : "") + '">' +
+        esc(cancelled ? T("cancelled").split(".")[0] : T(data.status)) + "</span></div>" +
+        '<div class="trk-route">' + esc(data.from_city || "—") + " → " + esc(data.to_city || "—") + "</div>" +
+        '<div class="trk-by">' + (data.business ? esc(T("by", { name: data.business })) + " · " : "") + esc(T("packages", { n: data.packages || 1 })) + "</div>" +
+        (cancelled ? '<div class="trk-msg">' + esc(T("cancelled")) + "</div>" : '<ul class="trk-steps">' + steps + "</ul>") +
+        '<div class="trk-by">' + esc(T("updated")) + ": " + esc(fmt(data.updated_at)) + "</div>";
+
+    }
+
+    async function search(code) {
+
+      code = String(code || "").trim().toUpperCase();
+
+      if (!code) return;
+
+      document.getElementById("trkCode").value = code;
+
+      if (!client) { last = "error"; paintResult("error"); return; }
+
+      try {
+
+        var res = await client.rpc("track_shipment", { p_code: code });
+
+        if (res.error) throw res.error;
+
+        last = res.data || null;
+
+        paintResult(last);
+
+        history.replaceState(null, "", "?c=" + encodeURIComponent(code));
+
+      } catch (e) {
+
+        console.error(e);
+        last = "error";
+        paintResult("error");
+
+      }
+
+    }
+
+    document.getElementById("trkForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      search(document.getElementById("trkCode").value);
+    });
+
+    document.getElementById("trkLangs").addEventListener("click", function (e) {
+      var l = e.target.getAttribute("data-l");
+      if (!l) return;
+      lang = l;
+      localStorage.setItem("hezmaak_language", l);
+      paintStatic();
+      if (last !== null) paintResult(last);
+    });
+
+    paintStatic();
+
+    var q = new URLSearchParams(location.search).get("c");
+    if (q) search(q);
+
+  })();
+
+  </script>
+
+</body>
+
+</html>
