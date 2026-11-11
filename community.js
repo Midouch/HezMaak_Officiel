@@ -1,5 +1,5 @@
 /* =====================================================
-   HEZ MAAK — COMMUNITY
+   HEZ MAAK — COMMUNITY fdfdfdf
    1) Apertura di un annuncio dalle notifiche e da link diretti
    2) Condivisione su social e gruppi Facebook
    3) Benvenuto dell'admin ai nuovi iscritti
