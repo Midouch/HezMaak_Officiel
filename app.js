@@ -6281,7 +6281,7 @@ async function refreshMessagesUnreadCount() {
     return;
   }
 
-  refreshMessagesBadge(data ? data.length : 0);
+  refreshMessagesBadge(data ? hmFilterUnread(data).length : 0);
 
 }
 
@@ -6473,7 +6473,7 @@ async function openMessages() {
       .is("read_at", null)
       .neq("sender_id", currentUser.id);
 
-    const isUnread = unreadMessages && unreadMessages.length > 0;
+    const isUnread = unreadMessages && hmFilterUnread(unreadMessages).length > 0;
 
     const { data: lastMsg } =
       await supabaseClient
@@ -9388,6 +9388,7 @@ function subscribeToMessages(conversationId) {
             div.textContent = msg.message;
             box.appendChild(div);
             box.scrollTop = box.scrollHeight;
+            markMessagesAsRead(conversationId);
             return;
           }
         }
@@ -14140,7 +14141,7 @@ async function updateUnreadCount() {
     return;
   }
 
-  const count = data.length;
+  const count = hmFilterUnread(data).length;
 
   if (target) {
     target.textContent = count > 0 ? `(${count})` : "";
@@ -14148,19 +14149,86 @@ async function updateUnreadCount() {
 
   refreshMessagesBadge(count);
 }
+/* Messaggi letti: salvataggio locale di riserva (resta letto anche se il database non salva) */
+function hmReadKey() {
+  return "hm_read_" + (currentUser ? currentUser.id : "anon");
+}
+
+function hmReadMap() {
+  try {
+    return JSON.parse(localStorage.getItem(hmReadKey()) || "{}") || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function hmSetRead(conversationId, isoTime) {
+  try {
+    const map = hmReadMap();
+    if (!map[conversationId] || map[conversationId] < isoTime) {
+      map[conversationId] = isoTime;
+      localStorage.setItem(hmReadKey(), JSON.stringify(map));
+    }
+  } catch (e) { /* archiviazione non disponibile */ }
+}
+
+function hmFilterUnread(list) {
+  const map = hmReadMap();
+  return (list || []).filter(m => !(map[m.conversation_id] && m.created_at && map[m.conversation_id] >= m.created_at));
+}
+
 async function markMessagesAsRead(conversationId) {
-  const { error } = await supabaseClient
+
+  // 1) memoria locale: tutto ciò che è arrivato finora è letto
+  const latest = await supabaseClient
+    .from("messages")
+    .select("created_at")
+    .eq("conversation_id", conversationId)
+    .neq("sender_id", currentUser.id)
+    .order("created_at", { ascending: false })
+    .limit(1);
+
+  if (latest && latest.data && latest.data[0] && latest.data[0].created_at) {
+    hmSetRead(conversationId, latest.data[0].created_at);
+  }
+
+  // 2) database: update diretto, se non salva nulla usa la funzione sicura
+  const { data, error } = await supabaseClient
     .from("messages")
     .update({
       read_at: new Date().toISOString()
     })
     .eq("conversation_id", conversationId)
     .neq("sender_id", currentUser.id)
-    .is("read_at", null);
+    .is("read_at", null)
+    .select("id");
 
-  if (error) {
-    console.error("Errore nel segnare i messaggi come letti:", error);
+  const stillUnread = await supabaseClient
+    .from("messages")
+    .select("id")
+    .eq("conversation_id", conversationId)
+    .neq("sender_id", currentUser.id)
+    .is("read_at", null)
+    .limit(1);
+
+  if (error || (stillUnread && stillUnread.data && stillUnread.data.length)) {
+
+    const rpc = await supabaseClient.rpc("mark_conversation_read", { p_conversation: conversationId });
+
+    if (rpc && rpc.error) {
+      console.warn("Segna letti (esegui supabase_messaggi_letti.sql):", rpc.error.message || rpc.error);
+    }
+
   }
+
+  if (typeof refreshMessagesUnreadCount === "function") {
+    refreshMessagesUnreadCount();
+  }
+
+  if (typeof updateUnreadCount === "function") {
+    updateUnreadCount();
+  }
+
 }
 /*======================*/
 
